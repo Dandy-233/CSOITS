@@ -3,8 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/stylesheets/dmaku.css}">
+    <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/scripts/dmaku.js}"></script>
 </head>
-<body>
-登录中...
+<body style="background-image: url(/images/background.jpg)">
+<div class="materialContainer">
+    <form id="log" action="#">
+        <div class="box">
+            <div class="title">登录</div>
+            <div class="input">
+                <label for="name">用户名</label>
+                <input type="text" name="name" id="name">
+                <span class="spin"></span>
+            </div>
+            <div class="input">
+                <label for="pass">密码</label>
+                <input type="password" name="pass" id="pass">
+                <span class="spin"></span>
+            </div>
+            <div class="button login">
+                <button>
+                    <span>登录</span>
+                    <i class="fa fa-check"></i>
+                </button>
+            </div>
+            <a href="javascript:" class="pass-forgot">忘记密码？</a>
+        </div>
+    </form>
+
+    <form id="reg" action="#">
+        <div class="overbox" style="overflow: initial;">
+            <div class="alt-2 material-button" style="width: 140px; height: 140px;">
+                <span class="shape" style="width: 100%; height: 100%; transform: rotate(0deg);"></span>
+            </div>
+            <div class="title" style="display: none;">注册</div>
+            <div class="input" style="display: none;">
+                <label for="regname">用户名</label>
+                <input type="text" name="regname" id="regname">
+                <span class="spin"></span>
+            </div>
+            <div class="input" style="display: none;">
+                <label for="regpass">密码</label>
+                <input type="password" name="regpass" id="regpass">
+                <span class="spin"></span>
+            </div>
+            <div class="input" style="display: none;">
+                <label for="reregpass">确认密码</label>
+                <input type="password" name="reregpass" id="reregpass">
+                <span class="spin"></span>
+            </div>
+            <div class="button" style="display: none;">
+                <button>
+                    <span>注册</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>
