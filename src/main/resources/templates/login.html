@@ -7,20 +7,21 @@
     <link rel="stylesheet" th:href="@{/stylesheets/dmaku.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/scripts/dmaku.js}"></script>
+    <script th:src="@{/scripts/layui/layui.all.js}"></script>
 </head>
 <body style="background-image: url(/images/background.jpg)">
 <div class="materialContainer">
-    <form id="log" action="#">
+    <form id="log" method="post">
         <div class="box">
             <div class="title">登录</div>
             <div class="input">
                 <label for="name">用户名</label>
-                <input type="text" name="name" id="name">
+                <input required autocomplete="off" type="text" name="name" id="name">
                 <span class="spin"></span>
             </div>
             <div class="input">
                 <label for="pass">密码</label>
-                <input type="password" name="pass" id="pass">
+                <input required type="password" name="pass" id="pass">
                 <span class="spin"></span>
             </div>
             <div class="button login">
@@ -29,24 +30,23 @@
                     <i class="fa fa-check"></i>
                 </button>
             </div>
-            <a href="javascript:" class="pass-forgot">忘记密码？</a>
         </div>
     </form>
 
-    <form id="reg" action="#">
+    <form id="reg" method="post" class="layui-form">
         <div class="overbox" style="overflow: initial;">
             <div class="alt-2 material-button" style="width: 140px; height: 140px;">
-                <span class="shape" style="width: 100%; height: 100%; transform: rotate(0deg);"></span>
+                <span id="plus" class="shape" style="width: 100%; height: 100%; transform: rotate(0deg);"></span>
             </div>
             <div class="title" style="display: none;">注册</div>
             <div class="input" style="display: none;">
                 <label for="regname">用户名</label>
-                <input type="text" name="regname" id="regname">
+                <input type="text" lay-verify="required|regname" autocomplete="off" name="regname" id="regname">
                 <span class="spin"></span>
             </div>
             <div class="input" style="display: none;">
                 <label for="regpass">密码</label>
-                <input type="password" name="regpass" id="regpass">
+                <input type="password" lay-verify="required|regpass" name="regpass" id="regpass">
                 <span class="spin"></span>
             </div>
             <div class="input" style="display: none;">
@@ -55,7 +55,7 @@
                 <span class="spin"></span>
             </div>
             <div class="button" style="display: none;">
-                <button>
+                <button id="regbtn" lay-submit="">
                     <span>注册</span>
                 </button>
             </div>
@@ -63,4 +63,84 @@
     </form>
 </div>
 </body>
+<script>
+    //用户登录
+    $("#log").submit(function (event) {
+        event.preventDefault();
+        let form = $(this);
+        $.ajax({
+            type: form.attr("method"),
+            url: "[[@{/user/login}]]",
+            data: form.serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.count == 0) {
+                    layer.msg("用户名或密码错误");
+                } else {
+                    window.location.href = "index";
+                }
+            }
+        })
+    })
+</script>
+<script>
+    //注册验证
+    layui.form.verify({
+        regname: function(value, regname){ //value：表单的值、item：表单的DOM对象
+            if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                return '用户名不能有特殊字符';
+            }
+            if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                return '用户名首尾不能出现下划线\'_\'';
+            }
+            if(/^\d+\d+\d$/.test(value)){
+                return '用户名不能全为数字';
+            }
+        }
+        ,regpass: [
+            /^[\S]{6,12}$/
+            ,'密码必须6到12位，且不能出现空格'
+        ]
+    });
+
+    //提交注册信息
+    $("#reg").submit(function (event) {
+        event.preventDefault();
+        let form = $(this);
+        //判断用户名是否已被占用
+        let url = "[[@{/user/checkUser}]]";
+        let param = {"regname": $("#regname").val()};
+        $.ajax({
+            url: url,
+            type: "post",
+            data: param,
+            dataType: "json",
+            success: function (data) {
+                if (data.count == 1) {
+                    layer.msg("该用户名已被占用");
+                } else {
+                    //判断密码和确认密码是否一样
+                    if ($("#reregpass").val() != $("#regpass").val()) {
+                        layer.msg("两次密码不一致");
+                    }else {
+                        $.ajax({
+                            url: "[[@{/user/regist}]]",
+                            type: form.attr("method"),
+                            data: form.serialize(),
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.count > 0){
+                                    alert("注册成功,请登录");
+                                    window.location.reload();
+                                }else {
+                                    layer.msg("注册失败")
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        });
+    });
+</script>
 </html>

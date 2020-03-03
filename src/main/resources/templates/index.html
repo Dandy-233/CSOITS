@@ -2,19 +2,46 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>欢迎来到霍格沃茨魔法学校在线交易平台</title>
     <style>
         a{
             color: red;
             text-decoration: none;
         }
     </style>
+    <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
 </head>
 <body style="background-image: url(/images/background.jpg)">
+<div th:replace="">
+
+</div>
 <div align="center">
     <h2 style="color: wheat">霍格沃茨魔法学校在线交易平台</h2>
     <h3 style="color: wheat">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</h3><br><br><br><br><br>
-    <h2 style="color: wheat">请先<a th:href="@{/user/logPage}">登录</a></h2>
+    <div th:if="${session.user == null}">
+        <h2 style="color: wheat">请先<a th:href="@{/user/logPage}">登录</a></h2>
+    </div>
+    <div th:if="${session.user != null}">
+
+    </div>
 </div>
 </body>
+<script>
+    //检验登录状态
+    $(function () {
+        $.ajax({
+            type: "post",
+            url: "[[@{/user/keepLogin}]]",
+            data: null,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1){
+                    if ('[[${session.user}]]' == ''){
+                        window.location.reload()
+                    }
+                }
+            }
+        });
+    })
+</script>
 </html>
