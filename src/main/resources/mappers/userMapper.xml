@@ -11,6 +11,9 @@
         select * from csoits.user where username=#{username}
     </select>
     <insert id="addUser" parameterType="user">
-        insert into csoits.user values (null,#{username},#{password})
+        insert into csoits.user(uid, username, password) values (null,#{username},#{password})
     </insert>
+    <update id="editUser" parameterType="user">
+        update csoits.user set password=#{password},uname=#{uname},usex=#{usex},unote=#{unote},ubirth=#{ubirth} where uid=#{uid}
+    </update>
 </mapper>

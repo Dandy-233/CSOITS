@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>顶部</title>
-    <script th:src="@{/scripts/layui/layui.all.js}"></script>
 </head>
 <body>
-<div>
+<div th:fragment="top">
+    <script>
+        layui.use('element', function(){
+            var element = layui.element;
+        });
+    </script>
     <ul class="layui-nav">
         <li class="layui-nav-item">
-            <a href="">控制台<span class="layui-badge">9</span></a>
+            <a th:href="@{/index}">首页</a>
         </li>
         <li class="layui-nav-item">
-            <a href="">个人中心<span class="layui-badge-dot"></span></a>
+            <a href="">购物车</a>
         </li>
         <li class="layui-nav-item">
             <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
             <dl class="layui-nav-child">
-                <dd><a href="javascript:;">修改信息</a></dd>
-                <dd><a href="javascript:;">安全管理</a></dd>
-                <dd><a href="javascript:;">退了</a></dd>
+                <dd><a href="javascript:;">个人中心</a></dd>
+                <dd><a href="javascript:;">我的消息<span class="layui-badge">9</span></a></dd>
+                <dd><a th:href="@{/user/logout}">退出登录</a></dd>
             </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a style="color:chocolate;" th:href="@{/item/addPage}">卖东西</a>
         </li>
     </ul>
 </div>

@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>欢迎来到霍格沃茨魔法学校在线交易平台</title>
-    <style>
-        a{
-            color: red;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/stylesheets/index.css}">
+    <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/scripts/layui/layui.js}"></script>
 </head>
 <body style="background-image: url(/images/background.jpg)">
-<div th:replace="">
-
+<div th:if="${session.user == null}">
+    <div align="center">
+        <br>
+        <p style="color: wheat;font-size: 70px">霍格沃茨魔法学校在线交易平台</p><br>
+        <p style="color: wheat;font-size: 50px">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</p><br><br><br>
+        <p style="color: wheat;font-size: 50px">请先<a style="color: red" th:href="@{/user/logPage}">登录</a></p>
+    </div>
 </div>
-<div align="center">
-    <h2 style="color: wheat">霍格沃茨魔法学校在线交易平台</h2>
-    <h3 style="color: wheat">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</h3><br><br><br><br><br>
-    <div th:if="${session.user == null}">
-        <h2 style="color: wheat">请先<a th:href="@{/user/logPage}">登录</a></h2>
+<div th:if="${session.user != null}">
+    <div th:include="top :: top"></div>
+    <div align="center">
+        <br>
+        <p style="color: wheat;font-size: 70px">霍格沃茨魔法学校在线交易平台</p><br>
+        <p style="color: wheat;font-size: 50px">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</p><br><br><br>
+        <div class="search">
+            <input placeholder="Type to search..." type="search" class="search-box"/>
+            <span class="search-button">
+                <span class="search-icon"></span>
+            </span>
+        </div>
     </div>
-    <div th:if="${session.user != null}">
+    <br><br><br>
 
-    </div>
 </div>
 </body>
+<script>
+    $('.search-button').click(function(){
+        $(this).parent().toggleClass('open');
+    });
+</script>
 <script>
     //检验登录状态
     $(function () {
