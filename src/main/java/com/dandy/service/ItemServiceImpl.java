@@ -1,7 +1,9 @@
 package com.dandy.service;
 
 import com.dandy.dao.ItemDao;
+import com.dandy.model.Item;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -14,4 +16,10 @@ public class ItemServiceImpl implements ItemService {
 
     @Resource
     private ItemDao itemDao;
+
+    @Transactional
+    @Override
+    public int addItem(Item item) {
+        return itemDao.addItem(item);
+    }
 }

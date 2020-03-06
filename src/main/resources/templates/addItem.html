@@ -3,14 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>添加商品</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/stylesheets/addItem.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/scripts/layui/layui.js}"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
 </head>
-<body style="background-image: url(/images/background.jpg)">
+<body>
 <div th:include="top :: top"></div>
 <div align="center">
-
+    <br>
+    <form id="form1" class="layui-form" method="post" enctype="multipart/form-data">
+        <div align="center">
+            <h3 style="color: wheat">- - - - - - 添加商品 - - - - - -</h3><br>
+            <input lay-verify="ipic" name="picture" id="ipic" type="file" accept="image/*" style="display: none">
+            <img title="上传图片" style="cursor: pointer" id="upimg" class="ipic" th:src="@{/images/upimgicon.jpg}">
+            <img class="ipic" style="cursor: pointer" id="demo">
+            <h4 id="ipictip" style="color: wheat">请上传图片</h4>
+            <br><br>
+        </div>
+        <div align="center" class="iteminfo">
+            <div class="form-group">
+                <input lay-verify="required" placeholder="商品名称" type="text" class="form-control" id="iname" name="iname">
+            </div>
+            <div class="form-group">
+                <textarea lay-verify="required" rows="5" placeholder="商品描述..." class="form-control" id="idescribe" name="idescribe"></textarea>
+            </div>
+            <div class="form-group">
+                <input lay-verify="required|number" type="text" placeholder="商品价格" class="form-control" id="iprice" name="iprice">
+            </div>
+            <input type="submit" lay-submit value="提交" class="btn btn-secondary">
+        </div>
+    </form>
 </div>
 </body>
+<script>
+    //预览图片框默认不可见
+    $(function () {
+        $("#demo").css({"display": "none"});
+    });
+    //图片作为上传图片按钮
+    $(".ipic").click(function () {
+        $("#ipic").click();
+    });
+    //预览图片
+    $("#ipic").on('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#demo").attr('src', e.target.result).css({"display": "block"});
+            $("#upimg").css({"display": "none"});
+            $("#ipictip").css({"display": "none"});
+        };
+        reader.readAsDataURL($(this).get(0).files[0]);
+    });
+</script>
+<script>
+    //校验图片
+    layui.use(['layer', 'form', 'element'], function(){
+        var layer = layui.layer
+            ,form = layui.form
+            ,element = layui.element
+        form.verify({
+            ipic: function(value, ipic){
+                if (/^\s*$/.test(value)){
+                    return '请上传图片'
+                }
+            }
+        });
+    });
+    //添加商品
+    $("#form1").submit(function (event) {
+        event.preventDefault();
+        let form = $(this);
+        var formData = new FormData($("#form1")[0]);
+        $.ajax({
+            url:"[[@{/item/addItem}]]",
+            type: form.attr("method"),
+            data: formData,
+            dataType: "json",
+            enctype: form.attr("enctype"),
+            cache:false,
+            contentType:false,
+            processData:false,
+            success:function (data) {
+                if (data.code > 0){
+                    alert("添加成功");
+                    window.location.href = "index";
+                }else {
+                    layer.msg("注册失败")
+                }
+            }
+        })
+    })
+</script>
 </html>

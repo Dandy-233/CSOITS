@@ -12,6 +12,8 @@ public class User {
     private String username;
     //用户密码
     private String password;
+    //用户头像
+    private String uhead;
     //用户性别
     private String usex;
     //用户昵称
@@ -24,6 +26,10 @@ public class User {
     private String uphone;
     //用户邮箱
     private String uemail;
+    //用户住址
+    private String uaddress;
+    //用户余额
+    private double ubalance;
 
     public User() {
     }
@@ -40,13 +46,32 @@ public class User {
                 "uid=" + uid +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", uhead='" + uhead + '\'' +
                 ", usex='" + usex + '\'' +
                 ", uname='" + uname + '\'' +
                 ", unote='" + unote + '\'' +
                 ", ubirth='" + ubirth + '\'' +
                 ", uphone='" + uphone + '\'' +
                 ", uemail='" + uemail + '\'' +
+                ", uaddress='" + uaddress + '\'' +
+                ", ubalance=" + ubalance +
                 '}';
+    }
+
+    public String getUaddress() {
+        return uaddress;
+    }
+
+    public void setUaddress(String uaddress) {
+        this.uaddress = uaddress;
+    }
+
+    public double getUbalance() {
+        return ubalance;
+    }
+
+    public void setUbalance(double ubalance) {
+        this.ubalance = ubalance;
     }
 
     public int getUid() {
@@ -71,6 +96,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUhead() {
+        return uhead;
+    }
+
+    public void setUhead(String uhead) {
+        this.uhead = uhead;
     }
 
     public String getUsex() {

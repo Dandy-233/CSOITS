@@ -14,6 +14,6 @@
         insert into csoits.user(uid, username, password) values (null,#{username},#{password})
     </insert>
     <update id="editUser" parameterType="user">
-        update csoits.user set password=#{password},uname=#{uname},usex=#{usex},unote=#{unote},ubirth=#{ubirth} where uid=#{uid}
+        update csoits.user set password=#{password},uname=#{uname},uhead=#{uhead},usex=#{usex},unote=#{unote},ubirth=#{ubirth},uphone=#{uphone},uemail=#{uemail},uaddress=#{uaddress},ubalance=#{ubalance} where uid=#{uid}
     </update>
 </mapper>

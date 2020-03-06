@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao层 -->
+<mapper namespace="com.dandy.dao.ItemDao">
+    <insert id="addItem" parameterType="item">
+        insert into csoits.item values (null,#{iname},#{idescribe},#{iprice},now(),#{ipic},#{sid})
+    </insert>
+</mapper>

@@ -2,6 +2,7 @@ package com.dandy.controller;
 
 import com.dandy.model.User;
 import com.dandy.service.UserService;
+import com.dandy.util.UpFileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -57,7 +59,7 @@ public class UserController {
         User user = userService.getUser(name,pass);
         int count = 0;
         if (user!=null){
-            log.info("用户"+user.getUsername()+"登录成功");
+            log.info("用户["+user.getUsername()+"]登录成功");
             count = 1;
             Cookie cookie = new Cookie("username",user.getUsername());
             cookie.setMaxAge(500000);
@@ -96,7 +98,7 @@ public class UserController {
         user.setPassword(regpass);
         int addCount = userService.addUser(user);
         user.setUname("user_"+userService.checkUser(user.getUsername()).getUid());
-        log.info("用户"+user.getUsername()+"注册成功");
+        log.info("用户["+user.getUsername()+"]注册成功");
         user.setUid(userService.checkUser(user.getUsername()).getUid());
         userService.editUser(user);
         return "{\"count\":\"" + addCount + "\"}";
@@ -117,7 +119,6 @@ public class UserController {
                 User user = userService.checkUser(username);
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                log.info("用户"+user.getUsername()+"进入主页");
                 return "{\"code\":\"1\"}";
             }
         }
@@ -140,7 +141,52 @@ public class UserController {
             response.addCookie(cookie);
             session.setAttribute("user", null);
         }
-        log.info("用户"+username+"退出登录");
+        log.info("用户["+username+"]退出登录");
         return "redirect:/";
+    }
+
+    /**
+     * 跳转到个人中心页面
+     * @return
+     */
+    @RequestMapping("/ucenter")
+    public String ucenter(){
+        return "ucenter";
+    }
+
+    /**
+     * 修改用户资料
+     * @param request
+     * @param user
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/editUser",method = RequestMethod.POST)
+    public String editUser(HttpServletRequest request,User user){
+        HttpSession session = request.getSession();
+        User user1 = (User) session.getAttribute("user");
+        user.setUid(user1.getUid());
+        user.setUsername(user1.getUsername());
+        user.setPassword(user1.getPassword());
+        user.setUaddress(user1.getUaddress());
+        user.setUhead(user1.getUhead());
+        user.setUbalance(user1.getUbalance());
+        int editCount = userService.editUser(user);
+        session.setAttribute("user",user);
+        log.info("用户["+user1.getUsername()+"]修改资料成功");
+        return "{\"count\":\"" + editCount + "\"}";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editHead",method = RequestMethod.POST)
+    public String editHead(HttpServletRequest request,MultipartFile picture){
+        String fileName = UpFileUtil.getFile(picture);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        user.setUhead(fileName);
+        int editCount = userService.editUser(user);
+        session.setAttribute("user",user);
+        log.info("用户["+user.getUsername()+"]修改头像成功");
+        return "{\"count\":\"" + editCount + "\"}";
     }
 }

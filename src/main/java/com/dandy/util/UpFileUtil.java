@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
+ * 上传图片工具类
  * @author 李旦
  * @date 2020/3/2,11:13
  */

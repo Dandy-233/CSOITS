@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${session.user.uname}]]的个人中心</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/ucenter.css}">
+    <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
+    <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/scripts/layui/layui.js}"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:include="top :: top"></div>
+<br><br>
+<div class="row" style="margin: 20px 300px">
+    <div class="col-3">
+        <div style="width: 150px" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a style="color: wheat" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">修改资料</a>
+            <a style="color: wheat" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">修改头像</a>
+            <a style="color: wheat" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">修改收货地址</a>
+            <a style="color: wheat" class="nav-link" id="v-pills-p-tab" data-toggle="pill" href="#v-pills-p" role="tab" aria-controls="v-pills-p" aria-selected="false">修改密码</a>
+            <a style="color: wheat" class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">查看账户</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <form id="form1" method="post" class="el-form clearfix layui-form" mode="[object Object]">
+                    <div class="el-form-item user-nick-name">
+                        <label style="color: wheat" class="el-form-item__label">昵称:</label>
+                        <div class="el-form-item__content">
+                            <div class="el-input">
+                                <input name="uname" autocomplete="off" th:value="${session.user.uname}" placeholder="你的昵称"
+                                       type="text" rows="2" maxlength="16" validateevent="true"
+                                       class="el-input__inner">
+                            </div>
+                            <span class="nick-name-not"></span>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-nick-rel-name">
+                        <label style="color: wheat" class="el-form-item__label">用户名:</label>
+                        <div class="el-form-item__content">
+                            <span class="userinfo-username">[[${session.user.username}]]</span>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-nick-rel-name">
+                        <label style="color: wheat" class="el-form-item__label">UID:</label>
+                        <div class="el-form-item__content">
+                            <span class="userinfo-username">[[${session.user.uid}]]</span>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-my-sign">
+                        <label style="color: wheat" class="el-form-item__label">我的签名:</label>
+                        <div class="el-form-item__content">
+                            <div class="el-textarea">
+                                    <textarea name="unote" placeholder="写点什么吧- ( ゜- ゜)つロ" type="textarea" rows="2"
+                                              autocomplete="off" validateevent="true"
+                                              class="el-textarea__inner">[[${session.user.unote}]]</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-my-sex">
+                        <label style="color: wheat" class="el-form-item__label">性别:</label>
+                        <div class="el-form-item__content nav ">
+                            <div class="el-radio-group">
+                                <label class="el-radio-button active">
+                                    <input lay-ignore name="usex" type="radio" class="el-radio-button__orig-radio" value="男">
+                                    <span id="male" class="el-radio-button__inner">男</span>
+                                </label>
+                                <label class="el-radio-button">
+                                    <input lay-ignore name="usex" type="radio" class="el-radio-button__orig-radio" value="女">
+                                    <span id="female" class="el-radio-button__inner">女</span>
+                                </label>
+                                <label class="el-radio-button">
+                                    <input lay-ignore name="usex" type="radio" class="el-radio-button__orig-radio"
+                                           value="保密">
+                                    <span id="secret" class="el-radio-button__inner">保密</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-my-date">
+                        <label style="color: wheat" class="el-form-item__label">出生日期:</label>
+                        <div class="el-form-item__content">
+                            <div class="el-date-editor el-input el-date-editor--date" id="el-date-pick">
+                                <input name="ubirth" id="test1" th:value="${session.user.ubirth}" autocomplete="off"
+                                       placeholder="选择日期" type="text" rows="2" class="el-input__inner">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-nick-name">
+                        <label style="color: wheat" class="el-form-item__label">手机号:</label>
+                        <div class="el-form-item__content">
+                            <div class="el-input">
+                                <input lay-verify="phone" id="uphone" name="uphone" autocomplete="off" th:value="${session.user.uphone}" placeholder="请输入手机号"
+                                       type="text" rows="2" validateevent="true"
+                                       class="el-input__inner">
+                            </div>
+                            <span class="nick-name-not"></span>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-nick-name">
+                        <label style="color: wheat" class="el-form-item__label">邮箱地址:</label>
+                        <div class="el-form-item__content">
+                            <div class="el-input">
+                                <input lay-verify="email" id="uemail" name="uemail" autocomplete="off" th:value="${session.user.uemail}" placeholder="请输入邮箱地址"
+                                       type="text" rows="2" validateevent="true"
+                                       class="el-input__inner">
+                            </div>
+                            <span class="nick-name-not"></span>
+                        </div>
+                    </div>
+                    <div class="el-form-item user-my-btn">
+                        <div class="el-form-item__content">
+                            <div class="padding-dom"></div>
+                            <div class="user-my-btn-warp">
+                                <button lay-submit type="submit" class="el-button el-button--primary">
+                                    <span>保存</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <form method="post" id="form2" enctype="multipart/form-data">
+                    <div class="container" align="center">
+                        <h3 style="color: wheat">你的头像</h3><br>
+                        <input name="picture" id="setface" type="file" accept="image/*" style="display: none">
+                        <div th:if="${session.user.uhead == null}">
+                            <img class="head" title="点击修改头像" style="cursor: pointer" src="/images/inithead.jfif">
+                        </div>
+                        <div th:if="${session.user.uhead != null}">
+                            <img class="head" title="点击修改头像" style="cursor: pointer" th:src="${session.user.uhead}">
+                        </div>
+                        <img class="head" style="cursor: pointer" id="demo">
+                    </div>
+                    <br>
+                    <div id="confirm" style="text-align: center">
+                        <input id="save-btn" class="btn btn-primary" type="submit" value="保存">
+                        <input id="cancel-btn" class="btn btn-light" type="button" value="取消">
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <div align="center">
+                    <form class="form-control">
+                        <select name="" id="">
+
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-p" role="tabpanel" aria-labelledby="v-pills-p-tab">...</div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="application/javascript">
+    //一些设置
+    $(function () {
+        $("#demo").css({"display": "none"});
+        $("#confirm").css({"display": "none"});
+
+        $("#cancel-btn").click(function () {
+            $("#confirm").css({"display": "none"});
+            $(".head").css({"display": "block"});
+            $("#demo").css({"display": "none"});
+        });
+    });
+
+    //图片按钮
+    $(".head").click(function () {
+        $("#setface").click();
+    });
+
+    //预览图片
+    $("#setface").on('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $(".head").css({"display": "none"});
+            $("#demo").attr('src', e.target.result).css({"display": "block"});
+            $("#confirm").css({"display": "block"})
+        };
+        reader.readAsDataURL($(this).get(0).files[0]);
+    });
+
+    //加载layui时间日期插件和验证
+    layui.use(['laydate','layer','form'], function(){
+        let laydate = layui.laydate;
+        let layer = layui.layer;
+        let form = layui.form;
+        laydate.render({
+            elem: '#test1',
+            calendar: true,
+            theme: 'molv',
+            trigger: 'click'
+        });
+        form.verify({
+            phone: [
+                /^\s*$|^1[3456789]\d{9}$/
+                ,'请输入正确的手机号'
+            ],
+            email: [
+                /^\s*$|^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+                ,'邮箱格式不正确'
+            ]
+        })
+    });
+
+    //判断默认性别选中
+    $(function () {
+        if (("[[${session.user.usex}]]") === "男") {
+            $("#male").click();
+        }
+        if (("[[${session.user.usex}]]") === "女") {
+            $("#female").click();
+        }
+        if (("[[${session.user.usex}]]") === "保密") {
+            $("#secret").click();
+        }
+    });
+
+    //单选框选中效果
+    $("#male").click(function () {
+        $("#male").css({"background-color": "#22a1d6", "color": "#f4f4f4", "border-color": "#22a1d6"});
+        $("#female").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+        $("#secret").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+    });
+    $("#female").click(function () {
+        $("#female").css({"background-color": "#22a1d6", "color": "#f4f4f4", "border-color": "#22a1d6"});
+        $("#secret").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+        $("#male").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+    });
+    $("#secret").click(function () {
+        $("#secret").css({"background-color": "#22a1d6", "color": "#f4f4f4", "border-color": "#22a1d6"});
+        $("#male").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+        $("#female").css({"background-color": "#f4f4f4", "color": "#717171", "border-color": "#f4f4f4"});
+    });
+
+    //修改用户资料
+    $("#form1").submit(function (event) {
+        event.preventDefault();
+        let form = $(this);
+        $.ajax({
+            type: form.attr("method"),
+            url: "[[@{/user/editUser}]]",
+            data: form.serialize(),
+            dataType:"json",
+            success: function (data) {
+                if (data.count > 0){
+                    layui.layer.msg("更新资料成功");
+                }else {
+                    layui.layer.msg("修改资料失败");
+                }
+            },
+            error: function () {
+                window.location.href = "index";
+            }
+        })
+    });
+
+    //修改头像
+    $("#form2").submit(function (event) {
+        event.preventDefault();
+        let form = $(this);
+        var formData = new FormData($("#form2")[0]);
+        $.ajax({
+            url:"[[@{/user/editHead}]]",
+            type: form.attr("method"),
+            data: formData,
+            dataType: "json",
+            enctype: form.attr("enctype"),
+            cache:false,
+            contentType:false,
+            processData:false,
+            success:function (data) {
+                if (data.count > 0){
+                    layer.msg("保存成功");
+                    $("#confirm").css({"display": "none"});
+                }else {
+                    layer.msg("修改失败")
+                }
+            }
+        })
+    })
+</script>
+</html>
