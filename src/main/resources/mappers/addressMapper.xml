@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao层 -->
+<mapper namespace="com.dandy.dao.AddressDao">
+    <select id="getAllProvince" resultType="Province">
+        select * from csoits.province
+    </select>
+    <select id="getCities" resultType="city" parameterType="int">
+        select * from csoits.city where pid=#{pid}
+    </select>
+    <select id="getDistricts" resultType="district" parameterType="int">
+        select * from csoits.district where cid=#{cid}
+    </select>
+    <select id="getStreets" resultType="street" parameterType="int">
+        select * from csoits.street where did=#{did}
+    </select>
+</mapper>

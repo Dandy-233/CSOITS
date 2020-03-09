@@ -26,8 +26,6 @@ public class User {
     private String uphone;
     //用户邮箱
     private String uemail;
-    //用户住址
-    private String uaddress;
     //用户余额
     private double ubalance;
 
@@ -53,25 +51,8 @@ public class User {
                 ", ubirth='" + ubirth + '\'' +
                 ", uphone='" + uphone + '\'' +
                 ", uemail='" + uemail + '\'' +
-                ", uaddress='" + uaddress + '\'' +
                 ", ubalance=" + ubalance +
                 '}';
-    }
-
-    public String getUaddress() {
-        return uaddress;
-    }
-
-    public void setUaddress(String uaddress) {
-        this.uaddress = uaddress;
-    }
-
-    public double getUbalance() {
-        return ubalance;
-    }
-
-    public void setUbalance(double ubalance) {
-        this.ubalance = ubalance;
     }
 
     public int getUid() {
@@ -152,5 +133,13 @@ public class User {
 
     public void setUemail(String uemail) {
         this.uemail = uemail;
+    }
+
+    public double getUbalance() {
+        return ubalance;
+    }
+
+    public void setUbalance(double ubalance) {
+        this.ubalance = ubalance;
     }
 }

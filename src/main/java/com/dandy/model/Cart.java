@@ -7,7 +7,7 @@ import java.util.Date;
  * @author 李旦
  * @date 2020/3/4,15:16
  */
-public class cart {
+public class Cart {
     //用户编号
     private int uid;
     //商品编号
@@ -17,17 +17,17 @@ public class cart {
 
     @Override
     public String toString() {
-        return "cart{" +
+        return "Cart{" +
                 "uid=" + uid +
                 ", iid=" + iid +
                 ", ctime=" + ctime +
                 '}';
     }
 
-    public cart() {
+    public Cart() {
     }
 
-    public cart(int uid, int iid) {
+    public Cart(int uid, int iid) {
         this.uid = uid;
         this.iid = iid;
     }

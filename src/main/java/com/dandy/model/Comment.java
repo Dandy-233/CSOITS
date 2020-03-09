@@ -7,7 +7,7 @@ import java.util.Date;
  * @author 李旦
  * @date 2020/3/4,18:01
  */
-public class comment {
+public class Comment {
     //商品编号
     private int iid;
     //评论者编号
@@ -19,7 +19,7 @@ public class comment {
 
     @Override
     public String toString() {
-        return "comment{" +
+        return "Comment{" +
                 "iid=" + iid +
                 ", uid=" + uid +
                 ", ctime=" + ctime +
@@ -27,10 +27,10 @@ public class comment {
                 '}';
     }
 
-    public comment() {
+    public Comment() {
     }
 
-    public comment(int iid, int uid, String ctext) {
+    public Comment(int iid, int uid, String ctext) {
         this.iid = iid;
         this.uid = uid;
         this.ctext = ctext;

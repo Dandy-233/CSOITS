@@ -168,7 +168,6 @@ public class UserController {
         user.setUid(user1.getUid());
         user.setUsername(user1.getUsername());
         user.setPassword(user1.getPassword());
-        user.setUaddress(user1.getUaddress());
         user.setUhead(user1.getUhead());
         user.setUbalance(user1.getUbalance());
         int editCount = userService.editUser(user);
