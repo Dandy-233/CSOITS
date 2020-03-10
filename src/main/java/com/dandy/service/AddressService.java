@@ -24,4 +24,8 @@ public interface AddressService {
     List<Address> getAddress(int uid);
 
     int addAddress(Address address);
+
+    Address findAddress(int aid);
+
+    int editAddress(Address address);
 }

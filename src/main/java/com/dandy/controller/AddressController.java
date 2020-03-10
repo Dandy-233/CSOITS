@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -120,8 +121,36 @@ public class AddressController {
     public String add(Address address, HttpServletRequest request){
         HttpSession session = request.getSession();
         int uid = ((User)session.getAttribute("user")).getUid();
+        String username = ((User)session.getAttribute("user")).getUsername();
         address.setUid(uid);
         int addCount = addressService.addAddress(address);
+        log.info("用户["+username+"]添加收货地址成功");
         return "{\"count\":\""+addCount+"\"}";
+    }
+
+    /**
+     * 跳转到编辑收货地址页面
+     * @return
+     */
+    @RequestMapping("/editPage")
+    public String editPage(int aid, Model model){
+        Address address = addressService.findAddress(aid);
+        model.addAttribute("address",address);
+        return "editAddress";
+    }
+
+    /**
+     * 修改收货地址
+     * @param address
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/edit")
+    public String edit(Address address,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String username = ((User)session.getAttribute("user")).getUsername();
+        int editCount = addressService.editAddress(address);
+        log.info("用户["+username+"]修改收货地址成功");
+        return "{\"count\":\""+editCount+"\"}";
     }
 }

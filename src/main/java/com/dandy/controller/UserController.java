@@ -203,6 +203,12 @@ public class UserController {
         return "{\"count\":\"" + editCount + "\"}";
     }
 
+    /**
+     * 修改用户头像
+     * @param request
+     * @param picture
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/editHead",method = RequestMethod.POST)
     public String editHead(HttpServletRequest request,MultipartFile picture){
@@ -213,6 +219,52 @@ public class UserController {
         int editCount = userService.editUser(user);
         session.setAttribute("user",user);
         log.info("用户["+user.getUsername()+"]修改头像成功");
+        return "{\"count\":\"" + editCount + "\"}";
+    }
+
+    /**
+     * 修改密码
+     * @param password
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/editPass",method = RequestMethod.POST)
+    public String editPass(String password,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        user.setPassword(password);
+        int editCount = userService.editUser(user);
+        session.setAttribute("user",user);
+        log.info("用户["+user.getUsername()+"]修改密码成功");
+        return "{\"count\":\"" + editCount + "\"}";
+    }
+
+    /**
+     * 跳转到充值页面
+     * @return
+     */
+    @RequestMapping("/depositPage")
+    public String depositPage(){
+        return "deposit";
+    }
+
+    /**
+     * 用户充值
+     * @param cash
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deposit")
+    public String deposit(String cash,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        double ubalance = Double.parseDouble(cash)+user.getUbalance();
+        user.setUbalance(ubalance);
+        int editCount = userService.editUser(user);
+        session.setAttribute("user",user);
+        log.info("用户["+user.getUsername()+"]充值"+ubalance+"元成功");
         return "{\"count\":\"" + editCount + "\"}";
     }
 }

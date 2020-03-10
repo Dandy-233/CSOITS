@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新增收货地址</title>
+    <title>编辑收货地址</title>
     <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
@@ -13,8 +13,9 @@
 <div th:include="top :: top"></div>
 <br><br>
 <div align="center" class="container">
-    <h2 style="color: wheat">新增收货地址</h2><br><br>
+    <h2 style="color: wheat">编辑收货地址</h2><br><br>
     <form style="background: none;border: none" method="post" id="form1" class="form-control layui-form">
+        <input type="text" name="aid" th:value="${address.aid}" style="display: none">
         <div id="address" style="width: 300px" class="container">
             <select required lay-ignore id="province" name="pid" class="custom-select custom-select-sm">
                 <option value="" selected disabled>请选择省份</option>
@@ -31,10 +32,10 @@
         </div>
         <br><br>
         <div class="container" style="width: 300px">
-            <textarea autocomplete="off" required class="form-control" placeholder="详细地址..." style="width: 270px" name="detail" id="detail" rows="3"></textarea>
+            <textarea autocomplete="off" th:text="${address.detail}" required class="form-control" placeholder="详细地址..." style="width: 270px" name="detail" id="detail" rows="3"></textarea>
             <br><br>
-            <input autocomplete="off" required class="form-control" type="text" name="aname" placeholder="收件人姓名"><br><br>
-            <input autocomplete="off" required lay-verify="phone" class="form-control" type="text" name="aphone" placeholder="收件人手机号"><br><br>
+            <input autocomplete="off" th:value="${address.aname}" required class="form-control" type="text" id="aname" name="aname" placeholder="收件人姓名"><br><br>
+            <input autocomplete="off" th:value="${address.aphone}" required lay-verify="phone" class="form-control" type="text" id="aphone" name="aphone" placeholder="收件人手机号"><br><br>
         </div>
         <input type="submit" lay-submit class="btn btn-primary" value="提交">
     </form>
@@ -136,20 +137,21 @@
     });
 </script>
 <script>
+    //修改地址
     $("#form1").submit(function (event) {
         event.preventDefault();
         let form = $(this);
         $.ajax({
             type: form.attr("method"),
-            url: "[[@{/address/add}]]",
+            url: "[[@{/address/edit}]]",
             data: form.serialize(),
             dataType:"json",
             success: function (data) {
                 if (data.count>0){
-                    alert("添加成功");
+                    alert("修改成功");
                     window.location.href="[[@{/user/ucenter}]]"
                 }else {
-                    layer.msg("添加失败")
+                    layer.msg("修改失败")
                 }
             },
         })

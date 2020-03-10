@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>充值入口</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/deposit.css}">
+    <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
+    <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/scripts/layui/layui.js}"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:include="top :: top"></div>
+<br><br>
+<div align="center"><br><br><br><br>
+    <div style="width: 400px;background-color: #0C0C0C">
+        <br><br>
+        <h3 style="color: wheat">请选择你的充值金额：</h3><br>
+        <ul class="nav">
+            <li><div style="color: white;font-size: large">你的余额:&nbsp;￥<span>[[${session.user.ubalance}]]</span></div></li>
+        </ul>
+        <br>
+        <ul class="nav">
+            <li><div class="cash-box">￥6</div></li>
+            <li><div class="cash-box">￥18</div></li>
+            <li><div class="cash-box">￥48</div></li>
+            <li><div class="cash-box">￥168</div></li>
+            <li><div class="cash-box">￥248</div></li>
+            <li>
+                <div class="cash-box-sd"><span id="sdtxt">自定义金额</span>
+                    <input id="sdcash" oninput = "value=value.replace(/[^\d]/g,'')" style='display:none;width:100px;background: none;border: none;color: white;text-align: center' type='text' placeholder='自定义金额'>
+                </div>
+            </li>
+        </ul>
+        <br>
+        <ul class="nav">
+            <li><div style="color: mediumpurple;font-size: x-large">应付金额:&nbsp;￥<span style="color: mediumpurple" id="cash">0</span></div></li>
+        </ul>
+        <br>
+        <button id="btn" class="btn btn-primary">付款</button>
+        <br><br><br>
+    </div>
+</div>
+</body>
+<script>
+    //点击方块选中
+    $(function () {
+        $(".cash-box").click(function () {
+            $(".cash-box").css({"color": "white"});
+            $(".cash-box").css({"border": "1px solid white"});
+            $(this).css({"color": "deepskyblue"});
+            $(this).css({"border": "1px solid deepskyblue"});
+            $(".cash-box-sd").css({"border": "1px solid white"});
+            let cash = $(this).text().substring(1,$(this).text().length);
+            $("#cash").text(cash);
+        });
+        $(".cash-box-sd").click(function () {
+            $(".cash-box").css({"color": "white"});
+            $(".cash-box").css({"border": "1px solid white"});
+            $(this).css({"border": "1px solid deepskyblue"});
+            let input = $("#sdcash");
+            input.css({"display": "block"});
+            $("#sdtxt").css({"display": "none"});
+            let td = $(this);
+            input.click(function () {
+                return false;
+            });
+            input.trigger("focus");
+            input.blur(function () {
+                let newtxt = $(this).val();
+                input.css({"display": "none"});
+                if (newtxt===''){
+                    $("#cash").text(0);
+                    $("#sdtxt").text('自定义金额')
+                }else {
+                    $("#sdtxt").text(newtxt)
+                }
+                $("#sdtxt").css({"display": "block"});
+            });
+            input.bind('input porpertychange',function () {
+                if (input.val()===''){
+                    $("#cash").text(0);
+                }else {
+                    $("#cash").text(input.val())
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $("#btn").click(function () {
+        let cash = $("#cash").text();
+        $.ajax({
+            type: "post",
+            url: "[[@{/user/deposit}]]",
+            data: {"cash": cash},
+            dataType: "json",
+            success: function (data) {
+                if (data.count>0){
+                    alert("充值成功");
+                    window.location.href="[[@{/user/ucenter}]]"
+                }
+            }
+        })
+    })
+</script>
+</html>

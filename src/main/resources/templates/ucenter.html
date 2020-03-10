@@ -18,7 +18,7 @@
         <div style="width: 150px" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a style="color: wheat" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">修改资料</a>
             <a style="color: wheat" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">修改头像</a>
-            <a style="color: wheat" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">修改收货地址</a>
+            <a style="color: wheat" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">管理收货地址</a>
             <a style="color: wheat" class="nav-link" id="v-pills-p-tab" data-toggle="pill" href="#v-pills-p" role="tab" aria-controls="v-pills-p" aria-selected="false">修改密码</a>
             <a style="color: wheat" class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">查看账户</a>
         </div>
@@ -41,13 +41,13 @@
                     <div class="el-form-item user-nick-rel-name">
                         <label style="color: wheat" class="el-form-item__label">用户名:</label>
                         <div class="el-form-item__content">
-                            <span class="userinfo-username">[[${session.user.username}]]</span>
+                            <span style="color: white" class="userinfo-username">[[${session.user.username}]]</span>
                         </div>
                     </div>
                     <div class="el-form-item user-nick-rel-name">
                         <label style="color: wheat" class="el-form-item__label">UID:</label>
                         <div class="el-form-item__content">
-                            <span class="userinfo-username">[[${session.user.uid}]]</span>
+                            <span style="color: white" class="userinfo-username">[[${session.user.uid}]]</span>
                         </div>
                     </div>
                     <div class="el-form-item user-my-sign">
@@ -146,7 +146,8 @@
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                 <div align="center" class="container">
                     <a th:href="@{/address/addPage}" style="color: greenyellow"><h4>+新增收货地址</h4></a><br><br>
-                    <div style="color: wheat" align="center">
+                    <div style="color: white" align="center">
+                        <p style="color: wheat">我的收货地址</p><br>
                         <table border="0" width="300px" th:each="uaddress,status: ${uaddresses}">
                             <tr>
                                 <td th:text="${uaddress.aname}"></td>
@@ -154,15 +155,43 @@
                                 <td><a style="color: greenyellow" th:href="@{/address/editPage(aid=${uaddress.aid})}">修改</a>&nbsp;<a style="color: greenyellow" th:href="@{/address/remove(aid=${uaddress.aid})}">删除</a></td>
                             </tr>
                             <tr>
-                               <td colspan="3">[[${uaddress.pname}]]&nbsp;[[${uaddress.cname}]]&nbsp;[[${uaddress.dname}]]&nbsp;[[${uaddress.sname}]]&nbsp;[[${uaddress.detail}]]</td>
+                               <td colspan="3">[[${uaddress.pname}]]&nbsp;[[${uaddress.cname}]]&nbsp;[[${uaddress.dname}]]&nbsp;[[${uaddress.sname}]]&nbsp;[[${uaddress.detail}]]
+                                   <br><br></td>
                             </tr>
                         </table>
-                        <br>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-p" role="tabpanel" aria-labelledby="v-pills-p-tab">...</div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+            <div class="tab-pane fade" id="v-pills-p" role="tabpanel" aria-labelledby="v-pills-p-tab">
+                <div style="background:none">
+                    <form id="form3" method="post" class="layui-form">
+                        <div class="form-group">
+                            <label style="color: wheat" for="exampleInputPassword1">请输入旧密码</label>
+                            <input lay-verify="required|oldpass" required type="password" name="oldpassword" class="form-control"
+                                   id="exampleInputPassword1">
+                        </div>
+                        <div class="form-group">
+                            <label style="color: wheat" for="exampleInputPassword2">请输入新密码</label>
+                            <input lay-verify="required|pass" required type="password" name="password" class="form-control"
+                                   id="exampleInputPassword2">
+                        </div>
+                        <div class="form-group">
+                            <label style="color: wheat" for="exampleInputPassword3">请再次输入新密码</label>
+                            <input lay-verify="required|repass" required type="password" name="repassword" class="form-control"
+                                   id="exampleInputPassword3">
+                        </div>
+                        <br>
+                        <button lay-submit type="submit" class="btn btn-primary">提交</button>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                <div style="margin: 30px 100px">
+                    <h2 style="color: white">我的账户余额:</h2><br>
+                    <p style="color: wheat;font-size: xx-large">￥<span th:text="${session.user.ubalance}"></span></p><br>
+                    <p style="font-size: x-large"><a style="color: greenyellow" th:href="@{/user/depositPage}">充值</a>&nbsp;&nbsp;<a style="color: greenyellow" href="">查看消费记录</a></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -215,7 +244,11 @@
             email: [
                 /^\s*$|^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
                 ,'邮箱格式不正确'
-            ]
+            ],
+            pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ],
         })
     });
 
@@ -275,7 +308,7 @@
     $("#form2").submit(function (event) {
         event.preventDefault();
         let form = $(this);
-        var formData = new FormData($("#form2")[0]);
+        let formData = new FormData($("#form2")[0]);
         $.ajax({
             url:"[[@{/user/editHead}]]",
             type: form.attr("method"),
@@ -294,6 +327,41 @@
                 }
             }
         })
-    })
+    });
+
+    //修改密码
+    $("#form3").submit(function (event){
+        let oldpass = $("#exampleInputPassword1");
+        let pass = $("#exampleInputPassword2");
+        let repass = $("#exampleInputPassword3");
+        if (oldpass.val()!=="[[${session.user.password}]]"){
+            layer.msg("旧密码输入有误");
+            return false;
+        }
+        if (pass.val()!==repass.val()){
+            layer.msg("两次密码输入不一致");
+            return false;
+        }
+        if (oldpass.val()===pass.val()){
+            layer.msg("新密码与旧密码一致，请重新输入");
+            return false;
+        }
+        event.preventDefault();
+        let form = $(this);
+        $.ajax({
+            type: form.attr("method"),
+            url: "[[@{/user/editPass}]]",
+            data: form.serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.count > 0){
+                    alert("密码修改成功");
+                    window.location.reload();
+                }else {
+                    layui.layer.msg("密码修改失败");
+                }
+            },
+        })
+    });
 </script>
 </html>

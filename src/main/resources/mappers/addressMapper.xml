@@ -34,4 +34,10 @@
     <insert id="addAddress" parameterType="address">
         insert into csoits.address values (null,#{uid},#{pid},#{cid},#{did},#{sid},#{detail},#{aname},#{aphone})
     </insert>
+    <select id="findAddress" parameterType="int" resultType="address">
+        select * from csoits.address where aid=#{aid}
+    </select>
+    <update id="editAddress" parameterType="address">
+        update csoits.address set pid=#{pid},cid=#{cid},did=#{did},sid=#{sid},detail=#{detail},aname=#{aname},aphone=#{aphone} where aid=#{aid}
+    </update>
 </mapper>

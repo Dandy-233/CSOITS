@@ -3,6 +3,7 @@ package com.dandy.service;
 import com.dandy.dao.AddressDao;
 import com.dandy.model.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -62,8 +63,20 @@ public class AddressServiceImpl implements AddressService {
         return addressDao.getAddress(uid);
     }
 
+    @Transactional
     @Override
     public int addAddress(Address address) {
         return addressDao.addAddress(address);
+    }
+
+    @Override
+    public Address findAddress(int aid) {
+        return addressDao.findAddress(aid);
+    }
+
+    @Transactional
+    @Override
+    public int editAddress(Address address) {
+        return addressDao.editAddress(address);
     }
 }
