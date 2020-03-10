@@ -6,6 +6,8 @@ package com.dandy.model;
  * @date 2020/3/9,10:35
  */
 public class Address {
+    //收货地址编号
+    private int aid;
     //用户编号
     private int uid;
     //省份编号
@@ -14,6 +16,8 @@ public class Address {
     private int cid;
     //区编号
     private int did;
+    //街道编号
+    private int sid;
     //详细地址
     private String detail;
     //收件人姓名
@@ -24,17 +28,39 @@ public class Address {
     public Address() {
     }
 
+    public Address(int aid, int uid, int pid, int cid, int did, int sid, String detail, String aname, String aphone) {
+        this.aid = aid;
+        this.uid = uid;
+        this.pid = pid;
+        this.cid = cid;
+        this.did = did;
+        this.sid = sid;
+        this.detail = detail;
+        this.aname = aname;
+        this.aphone = aphone;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
-                "uid=" + uid +
+                "aid=" + aid +
+                ", uid=" + uid +
                 ", pid=" + pid +
                 ", cid=" + cid +
                 ", did=" + did +
+                ", sid=" + sid +
                 ", detail='" + detail + '\'' +
                 ", aname='" + aname + '\'' +
                 ", aphone='" + aphone + '\'' +
                 '}';
+    }
+
+    public int getAid() {
+        return aid;
+    }
+
+    public void setAid(int aid) {
+        this.aid = aid;
     }
 
     public int getUid() {
@@ -67,6 +93,14 @@ public class Address {
 
     public void setDid(int did) {
         this.did = did;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public String getDetail() {

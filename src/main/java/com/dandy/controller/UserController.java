@@ -1,6 +1,9 @@
 package com.dandy.controller;
 
+import com.dandy.model.Address;
+import com.dandy.model.Uaddress;
 import com.dandy.model.User;
+import com.dandy.service.AddressService;
 import com.dandy.service.UserService;
 import com.dandy.util.UpFileUtil;
 import org.slf4j.Logger;
@@ -17,6 +20,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 李旦
@@ -28,6 +33,9 @@ public class UserController {
 
     @Resource
     UserService userService;
+
+    @Resource
+    AddressService addressService;
 
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -150,7 +158,26 @@ public class UserController {
      * @return
      */
     @RequestMapping("/ucenter")
-    public String ucenter(){
+    public String ucenter(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        int uid = ((User)session.getAttribute("user")).getUid();
+        List<Address> addresses = addressService.getAddress(uid);
+        List<Uaddress> uaddresses = new ArrayList<>();
+        for (Address address:addresses) {
+            Uaddress uaddress = new Uaddress();
+            uaddress.setAid(address.getAid());
+            uaddress.setUid(address.getUid());
+            uaddress.setPname(addressService.getProvince(address.getPid()));
+            uaddress.setCname(addressService.getCity(address.getCid()));
+            uaddress.setDname(addressService.getDistrict(address.getDid()));
+            uaddress.setSname(addressService.getStreet(address.getSid()));
+            uaddress.setDetail(address.getDetail());
+            uaddress.setAname(address.getAname());
+            uaddress.setAphone(address.getAphone());
+            uaddresses.add(uaddress);
+
+        }
+        model.addAttribute("uaddresses",uaddresses);
         return "ucenter";
     }
 

@@ -1,19 +1,23 @@
 package com.dandy.model;
 
 /**
- * 用户真实收货地址
+ * //真实地址
  * @author 李旦
- * @date 2020/3/9,11:55
+ * @date 2020/3/10,9:28
  */
 public class Uaddress {
+    //收货地址编号
+    private int aid;
     //用户编号
     private int uid;
     //省份名称
     private String pname;
     //市名称
     private String cname;
-    //区/县名称
+    //区名称
     private String dname;
+    //街道名称
+    private String sname;
     //详细地址
     private String detail;
     //收件人姓名
@@ -24,11 +28,13 @@ public class Uaddress {
     public Uaddress() {
     }
 
-    public Uaddress(int uid, String pname, String cname, String dname, String detail, String aname, String aphone) {
+    public Uaddress(int aid, int uid, String pname, String cname, String dname, String sname, String detail, String aname, String aphone) {
+        this.aid = aid;
         this.uid = uid;
         this.pname = pname;
         this.cname = cname;
         this.dname = dname;
+        this.sname = sname;
         this.detail = detail;
         this.aname = aname;
         this.aphone = aphone;
@@ -37,14 +43,24 @@ public class Uaddress {
     @Override
     public String toString() {
         return "Uaddress{" +
-                "uid=" + uid +
+                "aid=" + aid +
+                ", uid=" + uid +
                 ", pname='" + pname + '\'' +
                 ", cname='" + cname + '\'' +
                 ", dname='" + dname + '\'' +
+                ", sname='" + sname + '\'' +
                 ", detail='" + detail + '\'' +
                 ", aname='" + aname + '\'' +
                 ", aphone='" + aphone + '\'' +
                 '}';
+    }
+
+    public int getAid() {
+        return aid;
+    }
+
+    public void setAid(int aid) {
+        this.aid = aid;
     }
 
     public int getUid() {
@@ -77,6 +93,14 @@ public class Uaddress {
 
     public void setDname(String dname) {
         this.dname = dname;
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
     }
 
     public String getDetail() {

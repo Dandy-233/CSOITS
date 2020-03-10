@@ -1,10 +1,7 @@
 package com.dandy.service;
 
 import com.dandy.dao.AddressDao;
-import com.dandy.model.City;
-import com.dandy.model.District;
-import com.dandy.model.Province;
-import com.dandy.model.Street;
+import com.dandy.model.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,5 +35,35 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<Street> getStreets(int did) {
         return addressDao.getStreets(did);
+    }
+
+    @Override
+    public String getProvince(int pid) {
+        return addressDao.getProvince(pid);
+    }
+
+    @Override
+    public String getCity(int cid) {
+        return addressDao.getCity(cid);
+    }
+
+    @Override
+    public String getDistrict(int did) {
+        return addressDao.getDistrict(did);
+    }
+
+    @Override
+    public String getStreet(int sid) {
+        return addressDao.getStreet(sid);
+    }
+
+    @Override
+    public List<Address> getAddress(int uid) {
+        return addressDao.getAddress(uid);
+    }
+
+    @Override
+    public int addAddress(Address address) {
+        return addressDao.addAddress(address);
     }
 }

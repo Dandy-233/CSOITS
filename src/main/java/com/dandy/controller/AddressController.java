@@ -1,9 +1,6 @@
 package com.dandy.controller;
 
-import com.dandy.model.City;
-import com.dandy.model.District;
-import com.dandy.model.Province;
-import com.dandy.model.Street;
+import com.dandy.model.*;
 import com.dandy.service.AddressService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -100,5 +99,29 @@ public class AddressController {
             e.printStackTrace();
         }
         return json;
+    }
+
+    /**
+     * 跳转到添加收货地址页面
+     * @return
+     */
+    @RequestMapping("/addPage")
+    public String addPage(){
+        return "addAddress";
+    }
+
+    /**
+     * 添加收货地址
+     * @param address
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public String add(Address address, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        int uid = ((User)session.getAttribute("user")).getUid();
+        address.setUid(uid);
+        int addCount = addressService.addAddress(address);
+        return "{\"count\":\""+addCount+"\"}";
     }
 }

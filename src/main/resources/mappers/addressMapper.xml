@@ -16,4 +16,22 @@
     <select id="getStreets" resultType="street" parameterType="int">
         select * from csoits.street where did=#{did}
     </select>
+    <select id="getProvince" parameterType="int" resultType="String">
+        select pname from csoits.province where pid=#{pid}
+    </select>
+    <select id="getCity" parameterType="int" resultType="String">
+        select cname from csoits.city where cid=#{cid}
+    </select>
+    <select id="getDistrict" parameterType="int" resultType="String">
+        select dname from csoits.district where did=#{did}
+    </select>
+    <select id="getStreet" parameterType="int" resultType="String">
+        select sname from csoits.street where sid=#{sid}
+    </select>
+    <select id="getAddress" parameterType="int" resultType="address">
+        select * from csoits.address where uid=#{uid}
+    </select>
+    <insert id="addAddress" parameterType="address">
+        insert into csoits.address values (null,#{uid},#{pid},#{cid},#{did},#{sid},#{detail},#{aname},#{aphone})
+    </insert>
 </mapper>
