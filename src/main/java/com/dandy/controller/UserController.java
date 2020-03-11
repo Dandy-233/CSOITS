@@ -40,15 +40,6 @@ public class UserController {
     public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     /**
-     * 跳转回首页
-     * @return
-     */
-    @RequestMapping("/index")
-    public String index(){
-        return "redirect:/";
-    }
-
-    /**
      * 跳转到登录页面
      * @return
      */

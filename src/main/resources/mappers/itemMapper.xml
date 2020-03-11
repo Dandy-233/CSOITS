@@ -7,4 +7,10 @@
     <insert id="addItem" parameterType="item">
         insert into csoits.item values (null,#{iname},#{idescribe},#{iprice},now(),#{ipic},#{sid})
     </insert>
+    <select id="listAll" resultType="item">
+        select * from csoits.item
+    </select>
+    <select id="pickItem" resultType="item" parameterType="string">
+        select * from csoits.item where iname like CONCAT('%', #{text}, '%') or idescribe like CONCAT('%', #{text}, '%')
+    </select>
 </mapper>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎来到湘潭大学在线交易平台</title>
+    <title>欢迎来到加里敦大学在线交易平台</title>
     <link rel="stylesheet" th:href="@{/stylesheets/index.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
@@ -12,7 +12,7 @@
 <div th:if="${session.user == null}">
     <div align="center">
         <br>
-        <p style="color: wheat;font-size: 70px">湘潭大学在线交易平台</p><br>
+        <p style="color: wheat;font-size: 70px">加里敦大学在线交易平台</p><br>
         <p style="color: wheat;font-size: 50px">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</p><br><br><br>
         <p style="color: wheat;font-size: 50px">请先<a style="color: red" th:href="@{/user/logPage}">登录</a></p>
     </div>
@@ -21,14 +21,16 @@
     <div th:include="top :: top"></div>
     <div align="center">
         <br>
-        <p style="color: wheat;font-size: 70px">湘潭大学在线交易平台</p><br>
+        <p style="color: wheat;font-size: 70px">加里敦大学在线交易平台</p><br>
         <p style="color: wheat;font-size: 50px">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</p><br><br><br>
-        <div class="search">
-            <input placeholder="Type to search..." type="search" class="search-box"/>
-            <span class="search-button">
-                <span class="search-icon"></span>
-            </span>
-        </div>
+        <form method="post" th:action="@{/item/pickItem}">
+            <div class="search open" style="background-color: #242628">
+                <input name="text" placeholder="Type to search..." type="search" class="search-box"/>
+                <button type="submit" class="search-button" style="background-color: #242628;border: none">
+                    <span class="search-icon"></span>
+                </button>
+            </div>
+        </form>
     </div>
     <br><br><br>
     <div align="center">
@@ -37,9 +39,16 @@
 </div>
 </body>
 <script>
-    $('.search-button').click(function(){
-        $(this).parent().toggleClass('open');
-    });
+    //搜索功能
+    $(function () {
+        $(".search-button").click(function () {
+            let text = $(".search-box").val();
+            if (text === '') {
+                return false
+            }
+            $(".search").submit();
+        });
+    })
 </script>
 <script>
     //检验登录状态
@@ -52,7 +61,7 @@
             success: function (data) {
                 if (data.code == 1){
                     if ('[[${session.user}]]' == ''){
-                        window.location.href="index";
+                        window.location.href="[[@{/index}]]";
                     }
                 }
             }
