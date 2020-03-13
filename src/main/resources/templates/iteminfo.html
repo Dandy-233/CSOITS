@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${item.iname}]]</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
+    <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/scripts/layui/layui.js}"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:include="top :: top"></div>
+<br><br>
+<div align="center" style="color: wheat;font-size: large" class="container">
+    <img th:src="${item.ipic}" style="width: 160px;height: 130px"><br><br>
+    <div class="container" align="left" style="margin: 20px 350px">
+        <p>名称:<span th:text="${item.iname}"></span></p><br>
+        <p>描述:<span th:text="${item.idescribe}"></span></p><br>
+        <p>上架时间:<span th:text="${#dates.format(item.itime,'yyyy-MM-dd HH:mm')}"></span></p><br>
+        <p>卖家:<a th:href="@{/user/info(uid=${item.sid})}" style="color: chocolate" th:text="${item.uname}"></a></p><br>
+        <p>价格：￥<span style="color: red" th:text="${item.iprice}"></span></p>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        添加至购物车
+    </button>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content layui-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">请选择数量</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin: 0 170px">
+                        <ul class="box">
+                            <li style="float: left"><button style="width: 30px;height: 30px;line-height: 30px" class="btn-primary" id="subtract">-</button></li>
+                            <li style="float: left"><input lay-verify="number" style="height: 30px;width: 40px;text-align: center" type="text" id="text" value="1"/></li>
+                            <li style="float: left"><button style="height: 30px;width: 30px;line-height: 30px" class="btn-primary" id="plus">+</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button lay-submit type="button" id="addToCart" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    //加载插件
+    $(function () {
+        layui.use(['layer','form'], function(){
+            let layer = layui.layer;
+            let form = layui.form;
+            form.verify();
+        });
+    });
+
+    //添加至购物车
+    $("#addToCart").click(function () {
+        let iid=[[${item.iid}]];
+        let cnum=$("#text").val();
+        let iname="[[${item.iname}]]";
+        $.ajax({
+            type: "post",
+            url: "[[@{/cart/add}]]",
+            data: {"iid":iid,"cnum":cnum,"iname":iname},
+            dataType: "json",
+            success: function (data) {
+                if (data.count>0){
+                    layer.msg("添加成功");
+                    $(".close").click();
+                }else {
+                    layer.msg("添加失败")
+                }
+            }
+        })
+    });
+</script>
+<script>
+    window.onload = function(){
+        let plus = document.getElementById("plus");
+        let i = document.getElementById("text").value;
+        let subtract = document.getElementById("subtract");
+        plus.onclick = function(){
+            i++;
+            document.getElementById("text").value = i;
+        };
+        subtract.onclick = function(){
+            if (i>1) {
+                i--;
+                document.getElementById("text").value = i;
+            } else{
+                i=1;
+                document.getElementById("text").value = i;
+            }
+        }
+    }
+</script>
+</html>

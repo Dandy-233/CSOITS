@@ -33,4 +33,25 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> pickItem(String text) {
         return itemDao.pickItem(text);
     }
+
+    @Override
+    public Item getItemById(int iid) {
+        return itemDao.getItemById(iid);
+    }
+
+    @Override
+    public List<Item> getItemsBySid(int uid) {
+        return itemDao.getItemsBySid(uid);
+    }
+
+    @Transactional
+    @Override
+    public int editItem(Item item) {
+        return itemDao.editItem(item);
+    }
+
+    @Override
+    public int remove(int iid) {
+        return itemDao.remove(iid);
+    }
 }

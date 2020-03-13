@@ -258,4 +258,17 @@ public class UserController {
         log.info("用户["+user.getUsername()+"]充值"+ubalance+"元成功");
         return "{\"count\":\"" + editCount + "\"}";
     }
+
+    /**
+     * 获取卖家信息并跳转页面
+     * @param uid
+     * @param model
+     * @return
+     */
+    @RequestMapping("/info")
+    public String info(int uid,Model model){
+        User user = userService.getUserById(uid);
+        model.addAttribute("user",user);
+        return "userinfo";
+    }
 }

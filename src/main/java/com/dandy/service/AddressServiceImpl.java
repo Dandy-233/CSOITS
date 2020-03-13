@@ -79,4 +79,10 @@ public class AddressServiceImpl implements AddressService {
     public int editAddress(Address address) {
         return addressDao.editAddress(address);
     }
+
+    @Transactional
+    @Override
+    public int remove(int aid) {
+        return addressDao.remove(aid);
+    }
 }

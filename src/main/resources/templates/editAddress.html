@@ -13,7 +13,8 @@
 <div th:include="top :: top"></div>
 <br><br>
 <div align="center" class="container">
-    <h2 style="color: wheat">编辑收货地址</h2><br><br>
+    <h2 style="color: wheat">编辑收货地址</h2><br>
+    <a id="remove" style="color: red;font-size: medium" href="">删除</a><br><br>
     <form style="background: none;border: none" method="post" id="form1" class="form-control layui-form">
         <input type="text" name="aid" th:value="${address.aid}" style="display: none">
         <div id="address" style="width: 300px" class="container">
@@ -37,7 +38,7 @@
             <input autocomplete="off" th:value="${address.aname}" required class="form-control" type="text" id="aname" name="aname" placeholder="收件人姓名"><br><br>
             <input autocomplete="off" th:value="${address.aphone}" required lay-verify="phone" class="form-control" type="text" id="aphone" name="aphone" placeholder="收件人手机号"><br><br>
         </div>
-        <input type="submit" lay-submit class="btn btn-primary" value="提交">
+        <input type="submit" lay-submit class="btn btn-primary" value="提交"><br><br><br><br><br>
     </form>
 </div>
 </body>
@@ -57,6 +58,27 @@
                 ,'邮箱格式不正确'
             ]
         })
+    });
+
+    //删除收货地址
+    $("#remove").click(function (event) {
+        event.preventDefault();
+        layer.confirm("确定要删除吗？",function () {
+            let aid = [[${address.aid}]];
+            $.ajax({
+                type: "post",
+                url: "[[@{/address/remove}]]",
+                dataType: "json",
+                data: {"aid":aid},
+                success: function (data) {
+                    if (data.count>0){
+                        window.location.href="[[@{/user/ucenter}]]";
+                    }else {
+                        layer.msg("失败")
+                    }
+                }
+            })
+        });
     });
 
     $(function () {

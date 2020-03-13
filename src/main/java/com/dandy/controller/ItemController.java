@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -47,8 +48,8 @@ public class ItemController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addItem",method = RequestMethod.POST)
-    public String addItem(HttpServletRequest request, MultipartFile picture, Item item){
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public String add(HttpServletRequest request, MultipartFile picture, Item item){
         String fileName = UpFileUtil.getFile(picture);
         HttpSession session = request.getSession();
         int sid = ((User) session.getAttribute("user")).getUid();
@@ -56,7 +57,7 @@ public class ItemController {
         item.setSid(sid);
         int addCount = itemService.addItem(item);
         log.info("商品["+item.getIname()+"]添加成功");
-        return "{\"code\":\"" + addCount + "\"}";
+        return "{\"count\":\"" + addCount + "\"}";
     }
 
     /**
@@ -81,5 +82,82 @@ public class ItemController {
         }
         model.addAttribute("items",items);
         return "searchPage";
+    }
+
+    /**
+     * 获取指定物品信息并跳转到展示页面
+     * @param iid
+     * @param model
+     * @return
+     */
+    @RequestMapping("/info")
+    public String info(int iid,Model model){
+        Item item = itemService.getItemById(iid);
+        model.addAttribute("item",item);
+        return "iteminfo";
+    }
+
+    /**
+     * 获取我的物品
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/myItem")
+    public String myItem(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        int uid = ((User)session.getAttribute("user")).getUid();
+        List<Item> items = itemService.getItemsBySid(uid);
+        Collections.reverse(items);
+        model.addAttribute("items",items);
+        return "itemList";
+    }
+
+    /**
+     * 获取物品信息并跳转到修改物品页面
+     * @param iid
+     * @param model
+     * @return
+     */
+    @RequestMapping("/editPage")
+    public String editPage(int iid,Model model){
+        Item item = itemService.getItemById(iid);
+        model.addAttribute("item",item);
+        return "editItem";
+    }
+
+    /**
+     * 修改物品信息
+     * @param request
+     * @param picture
+     * @param item
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
+    public String edit(HttpServletRequest request,MultipartFile picture, Item item){
+        if (!picture.isEmpty()){
+            String fileName = UpFileUtil.getFile(picture);
+            item.setIpic(fileName);
+        }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int editCount = itemService.editItem(item);
+        log.info("商品["+item.getIname()+"]修改成功");
+        return "{\"count\":\"" + editCount + "\"}";
+    }
+
+    /**
+     * 下架物品
+     * @param iid
+     * @param iname
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/remove",method = RequestMethod.POST)
+    public String remove(int iid,String iname){
+        int editCount = itemService.remove(iid);
+        log.info("商品["+iname+"]下架成功");
+        return "{\"count\":\"" + editCount + "\"}";
     }
 }

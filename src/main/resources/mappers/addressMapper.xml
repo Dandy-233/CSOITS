@@ -40,4 +40,7 @@
     <update id="editAddress" parameterType="address">
         update csoits.address set pid=#{pid},cid=#{cid},did=#{did},sid=#{sid},detail=#{detail},aname=#{aname},aphone=#{aphone} where aid=#{aid}
     </update>
+    <delete id="remove" parameterType="int">
+        delete from csoits.address where aid=#{aid}
+    </delete>
 </mapper>

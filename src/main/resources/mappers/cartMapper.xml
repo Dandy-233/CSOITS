@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- dao层 -->
+<mapper namespace="com.dandy.dao.CartDao">
+    <insert id="addCart" parameterType="cart">
+        insert into csoits.cart values (#{uid},#{iid},#{cnum})
+    </insert>
+    <update id="plusCart" parameterType="cart">
+        update csoits.cart set cnum=#{cnum} where iid=#{iid} and uid=#{uid}
+    </update>
+    <select id="getCartList" parameterType="int" resultType="cart">
+        select * from csoits.cart where uid=#{uid}
+    </select>
+</mapper>

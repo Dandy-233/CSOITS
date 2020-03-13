@@ -22,6 +22,10 @@ public class Item {
     private String ipic;
     //售卖人编号
     private int sid;
+    //售卖人昵称
+    private String uname;
+    //商品状态
+    private int status;
 
     public Item() {
     }
@@ -43,6 +47,8 @@ public class Item {
                 ", itime=" + itime +
                 ", ipic='" + ipic + '\'' +
                 ", sid=" + sid +
+                ", uname='" + uname + '\'' +
+                ", status=" + status +
                 '}';
     }
 
@@ -100,5 +106,21 @@ public class Item {
 
     public void setSid(int sid) {
         this.sid = sid;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

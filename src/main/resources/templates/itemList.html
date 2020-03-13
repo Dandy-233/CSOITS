@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>搜索结果</title>
+    <title>[[${session.user.uname}]]的物品</title>
     <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/stylesheets/searchPage.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
@@ -13,26 +13,15 @@
 <body>
 <div th:include="top :: top"></div>
 <br><br>
-<div align="center">
-    <form id="form1" method="post" th:action="@{/item/pickItem}">
-        <div style="margin: 0 450px">
-            <input type="text" name="text" id="searchInput" placeholder="Search here..." autocomplete="off" autofocus="" class="ui-autocomplete-input search-box">
-            <div class="search-button">
-                <img src="/images/search.png" height="45px">
-            </div>
-        </div>
-    </form>
-    <br><br>
-</div>
-<div class="container" style="margin: 0 450px;">
-    <h1 style="color: wheat">搜索结果:</h1><br><br>
+<div class="container" align="center">
+    <h1 style="color: wheat">我上架的物品:</h1><br><br>
     <div th:if="${items.size() == 0}">
         <br>
-        <h2 style="color: rebeccapurple">什么都没找到o(╥﹏╥)o</h2>
+        <h2 style="color: rebeccapurple">您还没有上架物品呢o(╥﹏╥)o</h2>
     </div>
-    <div th:if="${items.size() > 0}">
+    <div align="left" style="margin-left: 300px" th:if="${items.size() > 0}">
         <div th:each="item,status:${items}">
-            <a th:href="@{/item/info(iid=${item.iid})}" target="_blank">
+            <a th:href="@{/item/editPage(iid=${item.iid})}">
                 <div class="item-info" style="float: left">
                     <img th:src="${item.ipic}" width="110px" height="80px" style="float: left">
                     <span>名称：<span th:text="${item.iname}"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -46,16 +35,4 @@
     </div>
 </div>
 </body>
-<script>
-    //搜索功能
-    $(function () {
-        $(".search-button").click(function () {
-            let text = $(".search-box").val();
-            if (text === '') {
-                return false
-            }
-            $("#form1").submit();
-        });
-    })
-</script>
 </html>

@@ -12,4 +12,12 @@ public interface ItemDao {
     List<Item> listAll();
 
     List<Item> pickItem(String text);
+
+    Item getItemById(int iid);
+
+    List<Item> getItemsBySid(int uid);
+
+    int editItem(Item item);
+
+    int remove(int iid);
 }

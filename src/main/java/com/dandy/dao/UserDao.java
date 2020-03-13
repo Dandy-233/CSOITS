@@ -13,4 +13,6 @@ public interface UserDao {
     int addUser(User user);
 
     int editUser(User user);
+
+    User getUserById(int uid);
 }

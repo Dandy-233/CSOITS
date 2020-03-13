@@ -28,4 +28,6 @@ public interface AddressService {
     Address findAddress(int aid);
 
     int editAddress(Address address);
+
+    int remove(int aid);
 }

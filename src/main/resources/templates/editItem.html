@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>添加物品</title>
+    <title>编辑物品</title>
     <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/stylesheets/addItem.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
@@ -16,24 +16,26 @@
     <br>
     <form id="form1" class="layui-form" method="post" enctype="multipart/form-data">
         <div align="center">
-            <h3 style="color: wheat">- - - - - - 添加商品 - - - - - -</h3><br>
-            <input lay-verify="ipic" name="picture" id="ipic" type="file" accept="image/*" style="display: none">
-            <img title="上传图片" style="cursor: pointer" id="upimg" class="ipic" th:src="@{/images/upimgicon.jpg}">
+            <h3 style="color: wheat">- - - - - - 编辑商品 - - - - - -</h3><br>
+            <a id="remove" style="color: red;font-size: medium" href="">下架该物品</a><br><br>
+            <input name="picture" id="ipic" type="file" accept="image/*" style="display: none">
+            <img title="上传图片" style="cursor: pointer" id="upimg" class="ipic" th:src="${item.ipic}">
             <img class="ipic" style="cursor: pointer" id="demo">
-            <h4 id="ipictip" style="color: wheat">请上传图片</h4>
             <br><br>
         </div>
         <div align="center" class="item-info">
+            <input type="text" name="iid" th:value="${item.iid}" style="display: none">
+            <input type="text" name="ipic" th:value="${item.ipic}" style="display: none">
             <div class="form-group">
-                <input autocomplete="off" lay-verify="required" placeholder="商品名称" type="text" class="form-control" id="iname" name="iname">
+                <input autocomplete="off" th:value="${item.iname}" lay-verify="required" placeholder="商品名称" type="text" class="form-control" id="iname" name="iname">
             </div>
             <div class="form-group">
-                <textarea maxlength="37" autocomplete="off" lay-verify="required" rows="5" placeholder="商品描述..." class="form-control" id="idescribe" name="idescribe"></textarea>
+                <textarea maxlength="37" autocomplete="off" th:text="${item.idescribe}" lay-verify="required" rows="5" placeholder="商品描述..." class="form-control" id="idescribe" name="idescribe"></textarea>
             </div>
             <div class="form-group">
-                <input autocomplete="off" lay-verify="required|number" type="text" placeholder="商品价格" class="form-control" id="iprice" name="iprice">
+                <input autocomplete="off" th:value="${item.iprice}" lay-verify="required|number" type="text" placeholder="商品价格" class="form-control" id="iprice" name="iprice">
             </div>
-            <input type="submit" lay-submit value="提交" class="btn btn-secondary">
+            <input type="submit" lay-submit value="保存" class="btn btn-secondary">
         </div>
     </form>
 </div>
@@ -78,7 +80,7 @@
         let form = $(this);
         var formData = new FormData($("#form1")[0]);
         $.ajax({
-            url:"[[@{/item/add}]]",
+            url:"[[@{/item/edit}]]",
             type: form.attr("method"),
             data: formData,
             dataType: "json",
@@ -88,13 +90,34 @@
             processData:false,
             success:function (data) {
                 if (data.count > 0){
-                    alert("添加成功");
-                    window.location.href = "[[@{/}]]";
+                    layer.msg("修改成功");
                 }else {
-                    layer.msg("注册失败")
+                    layer.msg("修改失败")
                 }
             }
         })
+    });
+
+    //下架商品
+    $("#remove").click(function (event) {
+        event.preventDefault();
+        layer.confirm("确定要下架该物品吗？",function () {
+            let iid = [[${item.iid}]];
+            let iname = "[[${item.iname}]]";
+            $.ajax({
+                type: "post",
+                url: "[[@{/item/remove}]]",
+                dataType: "json",
+                data: {"iid":iid,"iname":iname},
+                success: function (data) {
+                    if (data.count>0){
+                        window.location.href="[[@{/item/myItem}]]";
+                    }else {
+                        layer.msg("失败")
+                    }
+                }
+            })
+        });
     })
 </script>
 </html>

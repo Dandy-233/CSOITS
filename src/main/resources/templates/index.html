@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>欢迎来到加里敦大学在线交易平台</title>
+    <style>
+        .item-info{
+            color: coral;
+        }
+        .item-info:hover{
+            color: #2D93CA;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/stylesheets/index.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
     <script th:src="@{/scripts/layui/layui.js}"></script>
+    <script th:src="@{/scripts/bootstrap.min.js}"></script>
 </head>
 <body style="background-image: url(/images/background.jpg);background-attachment: fixed;background-repeat: no-repeat;background-size: 100% 100%;-moz-background-size: 100% 100%">
 <div th:if="${session.user == null}">
@@ -23,7 +33,7 @@
         <br>
         <p style="color: wheat;font-size: 70px">加里敦大学在线交易平台</p><br>
         <p style="color: wheat;font-size: 50px">W&nbsp;E&nbsp;L&nbsp;C&nbsp;O&nbsp;M</p><br><br><br>
-        <form method="post" th:action="@{/item/pickItem}">
+        <form id="form1" method="post" th:action="@{/item/pickItem}">
             <div class="search open" style="background-color: #242628">
                 <input name="text" placeholder="Type to search..." type="search" class="search-box"/>
                 <button type="submit" class="search-button" style="background-color: #242628;border: none">
@@ -33,8 +43,20 @@
         </form>
     </div>
     <br><br><br>
-    <div align="center">
-
+    <div class="container" align="center">
+        <h1 style="color: wheat">为你推荐:</h1><br><br>
+        <div align="left" style="margin-left: 300px" th:each="item,status:${items}">
+            <a th:href="@{/item/info(iid=${item.iid})}" target="_blank">
+                <div class="item-info" style="float: left">
+                    <img th:src="${item.ipic}" width="110px" height="80px" style="float: left">
+                    <span>名称：<span th:text="${item.iname}"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>上架时间：<span th:text="${#dates.format(item.itime,'yyyy-MM-dd HH:mm')}"></span></span>&nbsp;<br>
+                    <span>描述：</span><span th:text="${item.idescribe}"></span>&nbsp;<br><br>
+                    <span>价格：￥<span style="color: red" th:text="${item.iprice}"></span></span>
+                </div>
+            </a>
+            <br><br><br><br><br><br>
+        </div>
     </div>
 </div>
 </body>
@@ -46,7 +68,7 @@
             if (text === '') {
                 return false
             }
-            $(".search").submit();
+            $("#form1").submit();
         });
     })
 </script>
@@ -60,8 +82,8 @@
             dataType: "json",
             success: function (data) {
                 if (data.code == 1){
-                    if ('[[${session.user}]]' == ''){
-                        window.location.href="[[@{/index}]]";
+                    if ('[[${session.user}]]' === ''){
+                        window.location.href="[[@{/}]]";
                     }
                 }
             }

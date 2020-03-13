@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,14 +21,15 @@ public class IndexController {
     private ItemService itemService;
 
     /**
-     * 跳转回首页
+     * 跳转至首页
      * @return
      */
-    @RequestMapping("/index")
+    @RequestMapping("/")
     public String index(Model model){
         List<Item> items = itemService.listAll();
+        Collections.reverse(items);
         model.addAttribute("items",items);
-        return "redirect:/";
+        return "index";
     }
 }
 

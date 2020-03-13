@@ -153,4 +153,20 @@ public class AddressController {
         log.info("用户["+username+"]修改收货地址成功");
         return "{\"count\":\""+editCount+"\"}";
     }
+
+    /**
+     * 删除收货地址
+     * @param aid
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/remove",method = RequestMethod.POST)
+    public String remove(int aid,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String username = ((User)session.getAttribute("user")).getUsername();
+        int editCount = addressService.remove(aid);
+        log.info("用户["+username+"]删除收货地址成功");
+        return "{\"count\":\"" + editCount + "\"}";
+    }
 }

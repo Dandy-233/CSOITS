@@ -1,0 +1,33 @@
+.ui-autocomplete-input{
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin: 0;
+    font: inherit;
+    box-shadow: 0 2px 14px rgba(0,0,0,.4);
+    width: 100%;
+    border: 0px;
+    outline: none;
+    background-color: white;
+    color: #000;
+    border-radius: 45px;
+    line-height: 36px !important;
+    padding-left: 25px !important;
+    padding-bottom: 8px !important;
+    padding-top: 13px !important;
+    font-family: 'Open Sans',Arial,Helvetica,sans-serif;
+    font-weight: 400;
+    font-size: 27px;
+}
+.search-button {
+    position: absolute;
+    border: none;
+    right: 460px;
+    top: 107px;
+    cursor: pointer;
+}
+.item-info{
+    color: coral;
+}
+.item-info:hover{
+    color: #2D93CA;
+}

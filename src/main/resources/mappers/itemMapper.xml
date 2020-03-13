@@ -5,12 +5,24 @@
 <!-- dao层 -->
 <mapper namespace="com.dandy.dao.ItemDao">
     <insert id="addItem" parameterType="item">
-        insert into csoits.item values (null,#{iname},#{idescribe},#{iprice},now(),#{ipic},#{sid})
+        insert into csoits.item values (null,#{iname},#{idescribe},#{iprice},now(),#{ipic},#{sid},1)
     </insert>
     <select id="listAll" resultType="item">
-        select * from csoits.item
+        select * from csoits.item,csoits.user where sid=uid and status=1
     </select>
     <select id="pickItem" resultType="item" parameterType="string">
-        select * from csoits.item where iname like CONCAT('%', #{text}, '%') or idescribe like CONCAT('%', #{text}, '%')
+        select * from csoits.item,csoits.user where sid=uid and status=1 and (iname like CONCAT('%', #{text}, '%') or idescribe like CONCAT('%', #{text}, '%'))
     </select>
+    <select id="getItemById" parameterType="int" resultType="item">
+        select * from csoits.item,csoits.user where sid=uid and iid=#{iid}
+    </select>
+    <select id="getItemsBySid" parameterType="int" resultType="item">
+        select * from csoits.item,csoits.user where sid=uid and sid=#{uid} and status=1
+    </select>
+    <update id="editItem" parameterType="item">
+        update csoits.item set iname=#{iname},idescribe=#{idescribe},iprice=#{iprice},ipic=#{ipic} where iid=#{iid}
+    </update>
+    <update id="remove" parameterType="int">
+        update csoits.item set status=0 where iid=#{iid}
+    </update>
 </mapper>
