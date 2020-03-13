@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>我的购物车</title>
+    <link rel="stylesheet" th:href="@{/stylesheets/searchPage.css}">
     <link rel="stylesheet" th:href="@{/stylesheets/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/scripts/layui/css/layui.css}">
     <script th:src="@{/scripts/jquery-3.4.1.min.js}"></script>
@@ -12,5 +13,22 @@
 <body>
 <div th:include="top :: top"></div>
 <br><br>
+<div class="container" align="center">
+    <h1 style="color: wheat">我的购物车:</h1><br>
+    <div align="left" style="margin-left: 300px" th:each="cart,status:${carts}">
+        <a th:href="@{/item/info(iid=${cart.iid})}" target="_blank">
+            <div class="item-info" style="float: left">
+                <img th:src="${cart.ipic}" width="110px" height="80px" style="float: left">
+                <span>名称：<span th:text="${cart.iname}"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>数量：</span><span style="color: red" th:text="${cart.cnum}"></span>&nbsp;<br><br><br>
+                <span>价格：￥<span style="color: red" th:text="${cart.iprice}"></span></span>
+            </div>
+            <div style="float: left">
+
+            </div>
+        </a>
+        <br><br><br><br><br><br>
+    </div>
+</div>
 </body>
 </html>

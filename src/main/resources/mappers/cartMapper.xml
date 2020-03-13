@@ -11,6 +11,6 @@
         update csoits.cart set cnum=#{cnum} where iid=#{iid} and uid=#{uid}
     </update>
     <select id="getCartList" parameterType="int" resultType="cart">
-        select * from csoits.cart where uid=#{uid}
+        select * from csoits.cart,csoits.item,csoits.user where item.sid=user.uid and cart.iid=item.iid and cart.uid=#{uid}
     </select>
 </mapper>

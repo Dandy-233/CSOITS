@@ -89,6 +89,10 @@
     });
 </script>
 <script>
+    layui.use('layer', function(){
+        var layer = layui.layer;
+    });
+    //充值
     $("#btn").click(function () {
         let cash = $("#cash").text();
         $.ajax({
@@ -98,8 +102,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.count>0){
-                    alert("充值成功");
-                    window.location.href="[[@{/user/ucenter}]]"
+                    layer.msg("充值成功");
                 }
             }
         })

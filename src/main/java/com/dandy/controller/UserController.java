@@ -255,7 +255,7 @@ public class UserController {
         user.setUbalance(ubalance);
         int editCount = userService.editUser(user);
         session.setAttribute("user",user);
-        log.info("用户["+user.getUsername()+"]充值"+ubalance+"元成功");
+        log.info("用户["+user.getUsername()+"]充值"+cash+"元成功");
         return "{\"count\":\"" + editCount + "\"}";
     }
 

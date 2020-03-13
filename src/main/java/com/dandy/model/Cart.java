@@ -1,5 +1,7 @@
 package com.dandy.model;
 
+import java.util.Date;
+
 /**
  * 购物车收藏关系
  * @author 李旦
@@ -10,18 +12,24 @@ public class Cart {
     private int uid;
     //商品编号
     private int iid;
+    //数量
+    private int cnum;
     //商品名称
     private String iname;
     //商品描述
     private String idescribe;
     //商品价格
     private double iprice;
-    //数量
-    private int cnum;
+    //商品上架时间
+    private Date itime;
+    //商品图片
+    private String ipic;
     //售卖人编号
     private int sid;
     //售卖人昵称
     private String uname;
+    //商品状态
+    private int status;
 
     public Cart() {
     }
@@ -37,12 +45,15 @@ public class Cart {
         return "Cart{" +
                 "uid=" + uid +
                 ", iid=" + iid +
+                ", cnum=" + cnum +
                 ", iname='" + iname + '\'' +
                 ", idescribe='" + idescribe + '\'' +
                 ", iprice=" + iprice +
-                ", cnum=" + cnum +
+                ", itime=" + itime +
+                ", ipic='" + ipic + '\'' +
                 ", sid=" + sid +
                 ", uname='" + uname + '\'' +
+                ", status=" + status +
                 '}';
     }
 
@@ -60,6 +71,14 @@ public class Cart {
 
     public void setIid(int iid) {
         this.iid = iid;
+    }
+
+    public int getCnum() {
+        return cnum;
+    }
+
+    public void setCnum(int cnum) {
+        this.cnum = cnum;
     }
 
     public String getIname() {
@@ -86,12 +105,20 @@ public class Cart {
         this.iprice = iprice;
     }
 
-    public int getCnum() {
-        return cnum;
+    public Date getItime() {
+        return itime;
     }
 
-    public void setCnum(int cnum) {
-        this.cnum = cnum;
+    public void setItime(Date itime) {
+        this.itime = itime;
+    }
+
+    public String getIpic() {
+        return ipic;
+    }
+
+    public void setIpic(String ipic) {
+        this.ipic = ipic;
     }
 
     public int getSid() {
@@ -108,5 +135,13 @@ public class Cart {
 
     public void setUname(String uname) {
         this.uname = uname;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
