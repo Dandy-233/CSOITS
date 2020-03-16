@@ -15,17 +15,62 @@
 <br><br>
 <div class="container" align="center">
     <h1 style="color: wheat">我的购物车:</h1><br>
-    <div align="left" style="margin-left: 300px" th:each="cart,status:${carts}">
-        <a th:href="@{/item/info(iid=${cart.iid})}" target="_blank">
-            <div class="item-info" style="float: left">
-                <img th:src="${cart.ipic}" width="110px" height="80px" style="float: left">
-                <span>名称：<span th:text="${cart.iname}"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span>数量：</span><span style="color: red" th:text="${cart.cnum}"></span>&nbsp;<br><br><br>
-                <span>价格：￥<span style="color: red" th:text="${cart.iprice}"></span></span>
-            </div>
-        </a>
-        <br><br><br><br><br><br>
-    </div>
+    <table width="600px" border="0" style="border-collapse:separate; border-spacing:10px 10px;">
+        <tr style="color: wheat;border: 50px">
+            <td>
+                <input type="checkbox" title="全选">
+            </td>
+            <td>商品名称</td>
+            <td>数量</td>
+            <td>价格</td>
+            <td>操作</td>
+        </tr>
+        <tbody>
+
+        </tbody>
+        <tr th:id="${status.count}" th:each="cart,status:${carts}" style="border: 50px">
+            <td><input type="checkbox"></td>
+            <td>
+                <a th:href="@{/item/info(iid=${cart.iid})}" target="_blank">
+                    <img width="110px" height="80px" th:src="${cart.ipic}"><br>
+                    <span th:text="${cart.iname}" style="color: wheat"></span>
+                </a>
+            </td>
+            <td>
+                <ul class="box">
+                    <li style="float: left"><button style="width: 20px;height: 20px;line-height: 20px" class="btn-primary" id="subtract">-</button></li>
+                    <li style="float: left"><input lay-verify="number" style="height: 20px;width: 25px;text-align: center" type="text" id="num" th:value="${cart.cnum}"/></li>
+                    <li style="float: left"><button style="height: 20px;width: 20px;line-height: 20px" class="btn-primary" id="plus">+</button></li>
+                </ul>
+            </td>
+            <td>
+                <span style="color: wheat">￥<span id="price">0</span></span>
+            </td>
+            <td>
+                <a href="" style="color: red">移除</a>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
+<script>
+    window.onload = function(){
+        let plus = document.getElementById("plus");
+        let i = document.getElementById("text").value;
+        let subtract = document.getElementById("subtract");
+        plus.onclick = function(){
+            i++;
+            document.getElementById("text").value = i;
+        };
+        subtract.onclick = function(){
+            if (i>1) {
+                i--;
+                document.getElementById("text").value = i;
+            } else{
+                i=1;
+                document.getElementById("text").value = i;
+            }
+        }
+    }
+</script>
 </html>
