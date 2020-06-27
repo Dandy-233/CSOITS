@@ -86,7 +86,6 @@
                     obj.empty();
                     obj.append($("<option disabled selected>").val('').text("请选择市"));
                     for (let i = 0; i < data.length; i++) {
-                        console.log(1);
                         let option = $("<option>").val(data[i].cid).text(data[i].cname);
                         $("#city").append(option);
                     }
